@@ -4,9 +4,15 @@ tnoremap <C-w><S-n> <C-\><C-n>
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/AppData/Local/nvim/plugged')
 
-" Declare the list of plugins.
+" nvim lsp config plug
 Plug 'neovim/nvim-lspconfig'
-Plug 'gruvbox-community/gruvbox'
+
+" lsp servers manager
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+
+" gruvbox style
+"Plug 'gruvbox-community/gruvbox'
 
 " Completion engine
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -21,18 +27,14 @@ Plug 'hrsh7th/vim-vsnip'
 
 " For react, jsx and js
 " Plug 'pangloss/vim-javascript'
-Plug 'alvan/vim-closetag'
-Plug 'yuezk/vim-js'
-Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'alvan/vim-closetag'
+" Plug 'yuezk/vim-js'
+" Plug 'maxmellon/vim-jsx-pretty'
 
 " lualine - status line 
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-
-" lsp servers manager
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-
+" icons
+Plug 'nvim-tree/nvim-web-devicons'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
