@@ -43,7 +43,7 @@ return {
         },
       },
       filters = {
-        custom = { ".venv" },
+        custom = { ".venv", ".git" },
       },
       git = {
         ignore = false,
