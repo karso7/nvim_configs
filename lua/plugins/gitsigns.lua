@@ -5,8 +5,8 @@ return {
 
     require('gitsigns').setup {
       signs = {
-        add          = { text = '+',  hl = 'Normal' },
-        change       = { text = '│',  hl = 'Normal' },
+        add          = { text = '+' },  --hl = 'GitSignsAdd guibg=bg' },
+        change       = { text = '│' },  --hl = 'GitSignsChange guibg=bg' },
         delete       = { text = '_' },
         topdelete    = { text = '‾' },
         changedelete = { text = '~' },
@@ -47,10 +47,10 @@ return {
     }
 
     --- tactical fix for issue with background
-    vim.api.nvim_create_autocmd({"ColorScheme", "OptionSet"}, {
-      pattern = {"*line*"},
-      command = "highlight GitSignsAdd guibg=NONE || highlight GitSignsChange guibg=NONE",
-    })
+    --vim.api.nvim_create_autocmd({"ColorScheme", "OptionSet"}, {
+      --pattern = {"*line*"},
+      --command = "highlight GitSignsAdd guibg=NONE || highlight GitSignsChange guibg=NONE",
+    --})
 
   end,
 }
