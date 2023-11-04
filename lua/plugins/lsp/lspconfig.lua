@@ -114,6 +114,15 @@ return {
       },
     })
 
+    -- configure powershell
+    lspconfig["powershell_es"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/",
+      shell = "powershell.exe",
+    })
+
+    -- configure linters
     lspconfig.efm.setup {
       on_attach = on_attach,
       capabilities = capabilities,
