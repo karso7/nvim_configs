@@ -13,7 +13,7 @@ return {
     telescope.setup({
       defaults = {
         path_display = { "truncate " },
-        file_ignore_patterns = { "node_modules", ".venv", ".git" },
+        file_ignore_patterns = { "node_modules\\", ".venv\\", ".git\\" },
         mappings = {
           i = {
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result

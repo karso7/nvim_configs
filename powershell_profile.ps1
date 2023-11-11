@@ -1,3 +1,16 @@
+### custom propmt that informs terminal CWD
+function prompt {
+    $loc = $executionContext.SessionState.Path.CurrentLocation;
+
+      $out = ""
+        if ($loc.Provider.Name -eq "FileSystem") {
+              $out += "$([char]27)]9;9;`"$($loc.ProviderPath)`"$([char]27)\"
+                }
+                  $out += "PS $loc$('>' * ($nestedPromptLevel + 1)) ";
+                    return $out
+}
+
+
 ### adding VS vars to powershel env vars -----
 cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
     
