@@ -8,8 +8,8 @@ return {
     -- configure lualine with modified theme
     lualine.setup({
       options = {
+        theme = 'gruvbox', -- was 'auto'
         icons_enabled = true,
-        theme = 'auto',
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
         disabled_filetypes = {

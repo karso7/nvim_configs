@@ -6,10 +6,9 @@ require("lazy_config")
 
 -- ***************** PLUGINS *******************************
 -- ~/AppData/Local/nvim/lua/plugins/gitsigns.lua
--- ~/AppData/Local/nvim/lua/plugins/nvim-tree.lua
 -- ~/AppData/Local/nvim/lua/plugins/telescope.lua
 -- ~/AppData/Local/nvim/lua/plugins/nvim-cmp.lua
-
+-- ~/AppData/Local/nvim/lua/plugins/lualine.lua
 
 -- ***************** LSP ******************************
 -- ~/AppData/Local/nvim/lua/plugins/lsp/mason.lua

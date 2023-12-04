@@ -38,3 +38,11 @@ opt.swapfile = true
 -- language 
 opt.spelllang = 'en'
 opt.spell = true
+
+-- powershell
+opt.shell = 'powershell'
+opt.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues["\'Out-File:Encoding\'"]="\'utf8\'";'
+opt.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
+opt.shellpipe  = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
+opt.shellquote=''
+opt.shellxquote=''

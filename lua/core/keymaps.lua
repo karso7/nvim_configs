@@ -9,6 +9,8 @@ local keymap = vim.keymap -- for conciseness
 -- clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
+-- Explorer
+keymap.set("n", "<leader>ee", "<cmd>Lexp<CR>", { desc = "Show/Hide file explorer" })
 
 -- window management
 keymap.set("t", "<C-w><S-N>", "<C-\\><C-n>", { desc = "Exit terminal's interactive mode" })

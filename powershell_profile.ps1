@@ -10,6 +10,10 @@ function prompt {
                     return $out
 }
 
+### adding Worksapse env variable 
+
+$WS = "C:\Work\Workspace"
+$WSP = "C:\Work\Workspace\Python"
 
 ### adding VS vars to powershel env vars -----
 cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
