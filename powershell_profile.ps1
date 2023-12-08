@@ -1,3 +1,4 @@
+#########################################
 ### custom propmt that informs terminal CWD
 function prompt {
     $loc = $executionContext.SessionState.Path.CurrentLocation;
@@ -10,11 +11,13 @@ function prompt {
                     return $out
 }
 
+#########################################
 ### adding Worksapse env variable 
-
 $WS = "C:\Work\Workspace"
 $WSP = "C:\Work\Workspace\Python"
 
+
+#########################################
 ### adding VS vars to powershel env vars -----
 cmd.exe /c "call `"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat`" && set > %temp%\vcvars.txt"
     
@@ -24,28 +27,37 @@ Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
 	}
 }
 
-
+#########################################
 ### pseudo sudo command
 function sudo{
   param ([ScriptBlock]$code)
   $expandedCommand = $ExecutionContext.InvokeCommand.ExpandString($code.ToString())
   Write-Output $("sudo is executing: " + $expandedCommand) 
-  Start-Process -FilePath powershell.exe -Verb RunAs -ArgumentList "-Command $expandedCommand"
+  Start-Process -FilePath pwsh -Verb RunAs -ArgumentList "-Command $expandedCommand"
 }
 
 
+#########################################
 ### linking powershell profile with this file
-if(Test-Path -Path "$PROFILE") {
-  $linkType = (Get-Item "$PROFILE").LinkType
-  if($linkType -ne "SymbolicLink"){
-    Remove-Item -Force $PROFILE
+function TryToSetupProfile(){
+  if(Test-Path -Path "$PROFILE") {
+    $linkType = (Get-Item "$PROFILE").LinkType
+    if($linkType -ne "SymbolicLink"){
+      Remove-Item -Force $PROFILE
+    }
+  }
+  if(-not(Test-Path -Path "$PROFILE")) {
+    sudo { 
+      Split-Path -parent "$PROFILE"|Select-Object @{ name = 'Path'; expression = {`$_} }|New-Item -ItemType directory
+      New-Item -Path "$PROFILE" -ItemType SymbolicLink -Value "$PSCommandPath" 
+      }
   }
 }
-if(-not(Test-Path -Path "$PROFILE")) {
-  sudo { New-Item -Path "$PROFILE" -ItemType SymbolicLink -Value "$PSCommandPath" }
-}
+
+TryToSetupProfile
 
 
+#########################################
 ### Create an alias for touch
 function TouchFile() {
     $fileName = $args[0]
@@ -66,7 +78,7 @@ if (-not(Test-Path -Path Alias:Touch)) {
 }
 
 
-
+#########################################
 ### Create an alias for NvimUpdate
 function UpdateNvim()
 {
@@ -93,7 +105,38 @@ if (-not(Test-Path -Path Alias:NvimUpdate)) {
 }
 
 
+#########################################
+# Use this function to add neovim to windows shell menu (RUN AS ADMIN) 
+function TryToAddNvimToWindowsShellMenu(){
+  Write-Host "Trying to setup files menu"
+  if(-not(Test-Path -Path 'Registry::HKEY_CLASSES_ROOT\`*\shell\nvim')){
+      New-Item -Path 'Registry::HKEY_CLASSES_ROOT\`*\shell' -Name "nvim" -Force
+      New-Item -Path 'Registry::HKEY_CLASSES_ROOT\`*\shell\nvim' -Name "command" -Force
+  }
+  else {
+    Write-Host 'Files Registry key already exist'
+  }
+  
+  Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\`*\shell\nvim' -Name '(default)' -Value 'Open with NeoVim' -Force
+  Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\`*\shell\nvim' -Name 'Icon' -Value 'C:\Windows\System32\wsl.exe,0' -Force
+  Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\`*\shell\nvim\command' -Name '(default)' -Value "wt pwsh -NoExit -c `"& {Split-Path -parent '%1'`|cd && nvim '%1'}`"" -Force
 
+  Write-Host "Trying to setup directory menu"
+  if(-not(Test-Path -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\nvim')){
+      New-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell' -Name "nvim" -Force
+      New-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\nvim' -Name "command" -Force
+  }
+  else {
+    Write-Host 'Directory Registry key already exist'
+  }
+
+  Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\nvim' -Name '(default)' -Value 'Open with NeoVim' -Force
+  Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\nvim' -Name 'Icon' -Value 'C:\Windows\System32\wsl.exe,0' -Force
+  Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\nvim\command' -Name '(default)' -Value "wt pwsh -NoExit -c `"& {Split-Path -parent '%1'`|cd && nvim}`"" -Force
+}
+
+
+#########################################
 ### Scan local IPs
 
 function IPsLocalScan()
@@ -122,6 +165,3 @@ function IPsLocalScan()
 if (-not(Test-Path -Path Alias:Test-IPsLocalScan)) {
     New-Alias -Name Test-IPsLocalScan IPsLocalScan -Force
 }
-
-
-
