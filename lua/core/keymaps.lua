@@ -12,6 +12,9 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 -- Explorer
 keymap.set("n", "<leader>ee", "<cmd>Exp<CR>", { desc = "Show/Hide file explorer" })
 
+--  new tab
+keymap.set("n", "<C-w>t", "<cmd>tabnew<CR>", { desc = "Open new tab" })
+
 -- window management
 keymap.set("t", "<C-w><S-N>", "<C-\\><C-n>", { desc = "Exit terminal's interactive mode" })
 

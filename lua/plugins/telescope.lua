@@ -3,7 +3,6 @@ return {
   branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
@@ -12,7 +11,7 @@ return {
 
     telescope.setup({
       defaults = {
-        path_display = { "truncate " },
+        path_display = { "truncate" },
         file_ignore_patterns = { "node_modules\\", ".venv\\", ".git\\" },
         mappings = {
           i = {
@@ -22,9 +21,19 @@ return {
           },
         },
       },
+      pickers = {
+        -- default configuration for builtin pickers
+        find_files = {
+          hidden = true,
+        },
+        live_grep = {
+          additional_args = function(_)
+            return {"--hidden", "--pcre2"}
+          end
+        },
+      },
     })
 
-    telescope.load_extension("fzf")
     local builtin = require('telescope.builtin')
     -- set keymaps
     local keymap = vim.keymap -- for conciseness
