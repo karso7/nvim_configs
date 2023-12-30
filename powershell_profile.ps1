@@ -9,6 +9,7 @@ function prompt {
                 }
                   $out += "PS $loc$('>' * ($nestedPromptLevel + 1)) ";
                     return $out
+
 }
 
 #########################################
@@ -33,7 +34,7 @@ function sudo{
   param ([ScriptBlock]$code)
   $expandedCommand = $ExecutionContext.InvokeCommand.ExpandString($code.ToString())
   Write-Output $("sudo is executing: " + $expandedCommand) 
-  Start-Process -FilePath pwsh -Verb RunAs -ArgumentList "-Command $expandedCommand"
+  Start-Process -FilePath pwsh -Verb RunAs -ArgumentList "-NoExit -Command $expandedCommand"
 }
 
 
