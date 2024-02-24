@@ -20,7 +20,6 @@ return {
       opts.buffer = bufnr
 
       -- set keybinds
-
       -- Go to
       opts.desc = "Go to declaration"
       keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, opts) -- go to declaration
@@ -70,7 +69,7 @@ return {
       keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
       opts.desc = "Format buffer"
-      keymap.set('n', '<leader>ff', function()
+      keymap.set('n', '<S-A-f>', function()
         vim.lsp.buf.format { async = false }
       end, opts)
 

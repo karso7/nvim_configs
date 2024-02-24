@@ -16,7 +16,7 @@ function prompt {
 ### adding Worksapse env variable 
 $WS = "C:\Work\Workspace"
 $WSP = "C:\Work\Workspace\Python"
-
+$WSMP = "C:\Work\Workspace\Electronics\micropython"
 
 #########################################
 ### adding VS vars to powershel env vars -----
