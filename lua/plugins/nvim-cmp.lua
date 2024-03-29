@@ -71,9 +71,9 @@ return {
             buffer = "[Buffer]",
             path = "[Path]",
             nvim_lsp_signature_help = "[Signature]",
-            cmdline = "[Vim Command]",
+            cmdline = "[VimCmd]",
             nvim_lua = "[Lua]",
-            spell = "[Spellings]",
+            spell = "[Spelling]",
           })[entry.source.name]
           return vim_item
         end,
@@ -82,7 +82,8 @@ return {
 
     -- Set configuration for specific filetype.
     cmp.setup.filetype('gitcommit', {
-      sources = cmp.config.sources({
+      sources = cmp.config.sources(
+      {
         { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
       },
       {

@@ -1,5 +1,6 @@
 local opt = vim.opt -- for conciseness
 
+opt.bomb = flase	-- do not use Byte Order Mark(BOM) in files
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
@@ -46,3 +47,11 @@ opt.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
 opt.shellpipe  = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
 opt.shellquote=''
 opt.shellxquote=''
+
+--fold
+function _G.custom_fold_text()
+  local line = vim.fn.getline(vim.v.foldstart)
+  local line_count = vim.v.foldend - vim.v.foldstart + 1
+  return "  " .. line .. ": " .. line_count .. " lines"
+end
+vim.opt.foldtext = 'v:lua.custom_fold_text()'
