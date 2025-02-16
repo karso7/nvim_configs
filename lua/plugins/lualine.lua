@@ -8,7 +8,7 @@ return {
     -- configure lualine with modified theme
     lualine.setup({
       options = {
-        theme = 'gruvbox', -- was 'auto'
+        theme = 'auto', --'gruvbox' or 'auto'
         icons_enabled = true,
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
@@ -17,6 +17,7 @@ return {
           winbar = {},
         },
         ignore_focus = {},
+        always_show_tabline = true,
         always_divide_middle = true,
         globalstatus = false,
         refresh = {
