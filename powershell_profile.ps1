@@ -57,6 +57,18 @@ function TryToSetupProfile(){
 
 TryToSetupProfile
 
+#########################################
+### Create an alias for slime_text
+function SublimeText() {
+    $path = $args[0]
+    start "C:\Program Files\Sublime Text\sublime_text.exe" $path
+}
+
+# Check if the alias exists
+if (-not(Test-Path -Path Alias:sublime)) {
+    New-Alias -Name sublime SublimeText -Force
+}
+
 
 #########################################
 ### Create an alias for touch

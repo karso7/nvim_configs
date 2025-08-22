@@ -1,6 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
-  event = { "BufReadPre", "BufNewFile" },
+  lazy = false,
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
@@ -8,73 +8,80 @@ return {
   config = function()
     -- import lspconfig plugin
     local lspconfig = require("lspconfig")
-
+    local util = require("lspconfig.util")
     -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+    vim.diagnostic.config({
+        float = {
+              source = "always", -- <-- show the source in floating window
+              border = "rounded",
+        }
+    })
 
     local keymap = vim.keymap -- for conciseness
 
     local opts = { noremap = true, silent = true }
 
-    local on_attach = function(cient, bufnr)
+    local on_attach = function(client, bufnr)
       opts.buffer = bufnr
 
-      -- set keybinds
+      -- set key binds
       -- Go to
-      opts.desc = "Go to declaration"
+      opts.desc = "LSP - Go to declaration"
       keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
-      opts.desc = "Go to definitions"
+      opts.desc = "LSP - Go to definitions"
       keymap.set("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 
-      opts.desc = "Go to implementations"
+      opts.desc = "LSP - Go to implementations"
       keymap.set("n", "<leader>gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
-      opts.desc = "Go to type definitions"
+      opts.desc = "LSP - Go to type definitions"
       keymap.set("n", "<leader>gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
       -- Show
-      opts.desc = "Show buffer diagnostics"
-      keymap.set("n", "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+      opts.desc = "LSP - Show buffer diagnostics"
+      keymap.set("n", "<leader>sD", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
-      opts.desc = "Show line diagnostics"
-      keymap.set("n", "<leader>sD", vim.diagnostic.open_float, opts) -- show diagnostics for line
+      opts.desc = "LSP - Show line diagnostics"
+      keymap.set("n", "<leader>sd", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
-      opts.desc = "Go to previous diagnostic"
+      opts.desc = "LSP - Go to previous diagnostic"
       keymap.set("n", "<leader>[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
 
-      opts.desc = "Go to next diagnostic"
+      opts.desc = "LSP - Go to next diagnostic"
       keymap.set("n", "<leader>]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
-      opts.desc = "Show references"
+      opts.desc = "LSP - Show references"
       keymap.set("n", "<leader>sr", "<cmd>Telescope lsp_references<CR>", opts) -- show references
 
-      opts.desc = "Show documentation for what is under cursor"
+      opts.desc = "LSP - Show documentation for what is under cursor"
       keymap.set("n", "<leader>sh", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
-      opts.desc = "Show signature help"
+      opts.desc = "LSP - Show signature help"
       keymap.set('n', '<leader>ss', vim.lsp.buf.signature_help, opts)
 
-      opts.desc = "Show incoming calls"
+      opts.desc = "LSP - Show incoming calls"
       keymap.set('n', '<leader>si', vim.lsp.buf.incoming_calls, opts)
 
-      opts.desc = "Show outgoing calls"
+      opts.desc = "LSP - Show outgoing calls"
       keymap.set('n', '<leader>so', vim.lsp.buf.outgoing_calls, opts)
 
       -- actions
-      opts.desc = "See available code actions"
+      opts.desc = "LSP - See available code actions"
       keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
-      opts.desc = "Smart rename"
+      opts.desc = "LSP - Smart rename"
       keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
-      opts.desc = "Format buffer"
+      opts.desc = "LSP - Format buffer"
       keymap.set('n', '<S-A-f>', function()
         vim.lsp.buf.format { async = false }
       end, opts)
 
 
-      opts.desc = "Restart LSP"
+      opts.desc = "LSP - Restart LSP"
       keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
     end
 
@@ -148,17 +155,18 @@ return {
       init_options = {
         documentFormatting = true
       },
+      root_dir = util.root_pattern("pyproject.toml", ".venv", ".git"),
       settings = {
-        rootMarkers = { ".venv/", ".git/" },
+        rootMarkers = {"pyproject.toml", ".venv", ".git"},
         languages = {
           python = {
             {
-              formatCommand = "flake8 -format",
-              formatStdin = true,
-              lintCommand = "flake8 --stdin-display-name ${INPUT} -",
-              lintIgnoreExitCode = true,
+              lintCommand = "ruff check --stdin-filename ${INPUT} -",
               lintStdin = true,
-              lintFormats = { "%f:%l:%c: %m" },
+              lintFormats = { "%f:%l:%c: %t%n %m" },
+              lintIgnoreExitCode = true,
+              formatCommand = "ruff format --stdin-filename ${INPUT} -",
+              formatStdin = true,
             }
           }
         }
