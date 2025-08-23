@@ -14,3 +14,6 @@ require("lazy_config")
 -- ~/AppData/Local/nvim/lua/plugins/lsp/mason.lua
 -- ~/AppData/Local/nvim/lua/plugins/lsp/lspconfig.lua
 -- ~/AppData/Local/nvim/lua/plugins/lsp/dap.lua
+
+-- ***************** AI ******************************
+-- ~/AppData/Local/nvim/lua/plugins/ai/codecompanion.lua
