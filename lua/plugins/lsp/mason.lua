@@ -23,11 +23,11 @@ return {
       ensure_installed = {
         "lua_ls",
         "emmet_ls",
-        "pyright",
+        "basedpyright",
         "efm",
       },
       automatic_installation = true,
-      automatic_enable = true
+      automatic_enable = false
     })
 
     mason_tool_installer.setup({
