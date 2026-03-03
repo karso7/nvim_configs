@@ -152,6 +152,7 @@ return {
     lspconfig.efm.setup {
       on_attach = on_attach,
       capabilities = capabilities,
+      filetypes = { "python" },
       init_options = {
         documentFormatting = true
       },
@@ -161,11 +162,11 @@ return {
         languages = {
           python = {
             {
-              lintCommand = "ruff check --stdin-filename ${INPUT} -",
+              lintCommand = "ruff check --output-format concise --quiet --stdin-filename ${FILENAME} -",
               lintStdin = true,
-              lintFormats = { "%f:%l:%c: %t%n %m" },
+              lintFormats = { "%f:%l:%c: %m" },
               lintIgnoreExitCode = true,
-              formatCommand = "ruff format --stdin-filename ${INPUT} -",
+              formatCommand = "ruff format --stdin-filename ${FILENAME} -",
               formatStdin = true,
             }
           }
