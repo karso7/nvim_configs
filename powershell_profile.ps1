@@ -31,7 +31,7 @@ Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
 #########################################
 ### pseudo sudo command
 function sudo{
-  param ([ScriptBlock]$code)
+  param ([String]$code)
   $expandedCommand = $ExecutionContext.InvokeCommand.ExpandString($code.ToString())
   Write-Output $("sudo is executing: " + $expandedCommand) 
   Start-Process -FilePath pwsh -Verb RunAs -ArgumentList "-NoExit -Command $expandedCommand"
