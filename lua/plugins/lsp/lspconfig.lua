@@ -6,25 +6,21 @@ return {
     { "antosha417/nvim-lsp-file-operations", config = true },
   },
   config = function()
-    -- import lspconfig plugin
-    local lspconfig = require("lspconfig")
-    local util = require("lspconfig.util")
-    -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local util = require("lspconfig.util")
 
     vim.diagnostic.config({
-        float = {
-              source = "always", -- <-- show the source in floating window
-              border = "rounded",
-        }
+      float = {
+        source = "always",
+        border = "rounded",
+      },
     })
 
-    local keymap = vim.keymap -- for conciseness
+    local keymap = vim.keymap
 
-    local opts = { noremap = true, silent = true }
 
-    local on_attach = function(client, bufnr)
-      opts.buffer = bufnr
+    local on_attach = function(_, bufnr)
+      local opts = { buffer = bufnr, noremap = true, silent = true }
 
       -- set key binds
       -- Go to
@@ -85,52 +81,42 @@ return {
       keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
     end
 
-    -- used to enable autocompletion (assign to every lsp server config)
+
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    -- configure html server
-    lspconfig["html"].setup({
+    vim.lsp.config("html", {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+    vim.lsp.config("ts_ls", {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+    vim.lsp.config("cssls", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
-    -- configure typescript server with plugin
-    lspconfig["ts_ls"].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- configure css server
-    lspconfig["cssls"].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- configure emmet language server
-    lspconfig["emmet_ls"].setup({
+    vim.lsp.config("emmet_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
     })
 
-    -- configure python server
-    lspconfig["basedpyright"].setup({
+    vim.lsp.config("basedpyright", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
-    -- configure lua server (with special settings)
-    lspconfig["lua_ls"].setup({
+    vim.lsp.config("lua_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
-      settings = { -- custom settings for lua
+      settings = {
         Lua = {
-          -- make the language server recognize "vim" global
           diagnostics = {
             globals = { "vim" },
           },
           workspace = {
-            -- make language server aware of runtime files
             library = {
               [vim.fn.expand("$VIMRUNTIME/lua")] = true,
               [vim.fn.stdpath("config") .. "/lua"] = true,
@@ -140,25 +126,23 @@ return {
       },
     })
 
-    -- configure powershell
-    lspconfig["powershell_es"].setup({
+    vim.lsp.config("powershell_es", {
       capabilities = capabilities,
       on_attach = on_attach,
       bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/",
       shell = "powershell.exe",
     })
 
-    -- configure linters
-    lspconfig.efm.setup {
-      on_attach = on_attach,
+    vim.lsp.config("efm", {
       capabilities = capabilities,
+      on_attach = on_attach,
       filetypes = { "python" },
       init_options = {
-        documentFormatting = true
+        documentFormatting = true,
       },
-      root_dir = util.root_pattern("pyproject.toml", ".venv", ".git"),
+      root_markers = { "pyproject.toml", ".venv", ".git"},
       settings = {
-        rootMarkers = {"pyproject.toml", ".venv", ".git"},
+        rootMarkers = { "pyproject.toml", ".venv", ".git" },
         languages = {
           python = {
             {
@@ -168,10 +152,21 @@ return {
               lintIgnoreExitCode = true,
               formatCommand = "ruff format --stdin-filename ${FILENAME} -",
               formatStdin = true,
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    })
+
+    vim.lsp.enable({
+      "html",
+      "ts_ls",
+      "cssls",
+      "emmet_ls",
+      "basedpyright",
+      "lua_ls",
+      "powershell_es",
+      "efm",
+    })
   end,
 }
