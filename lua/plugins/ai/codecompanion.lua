@@ -66,9 +66,9 @@
                 #{buffer}
 
                 And here are the diagnostics and symbols from the LSP:
-                #{lsp}
+                #{diagnostics}
 
-                Fix the issues.
+                Fix the issues using @{insert_edit_into_file}.
                 ]],
               }
             },
