@@ -48,6 +48,23 @@
                 role = "system",
                 content = get_ai_context,
               },
+              {
+                role = "user",
+                content = [[
+Here is the current buffer:
+#{buffer}
+
+You may use any of below tools:
+  @{files}
+  @{read_file}
+  @{delete_file}
+  @{create_file}
+  @{insert_edit_into_file}
+  @{run_command}
+
+
+                ]],
+              }
             },
           },
 
@@ -62,13 +79,20 @@
               {
                 role = "user",
                 content = [[
-                Here is the current buffer:
-                #{buffer}
+Here is the current buffer:
+#{buffer}
 
-                And here are the diagnostics and symbols from the LSP:
-                #{diagnostics}
+And here are the diagnostics and symbols from the LSP:
+#{diagnostics}
 
-                Fix the issues using @{insert_edit_into_file}.
+Fix the issues using:
+  @{files}
+  @{read_file}
+  @{delete_file}
+  @{create_file}
+  @{insert_edit_into_file}
+  @{run_command}
+
                 ]],
               }
             },
@@ -92,7 +116,7 @@
 
               ---The header name for your messages
               ---@type string
-              user = "Me (Ctrl+S to submit prompt, # or @ for function callse, ? for help)",
+              user = "Me (Ctrl+S to submit prompt, # or @ for functions calls, ? for help)",
             }
           },
         },
