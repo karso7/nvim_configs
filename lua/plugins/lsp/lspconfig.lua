@@ -126,11 +126,15 @@ return {
       },
     })
 
+
     vim.lsp.config("powershell_es", {
       capabilities = capabilities,
       on_attach = on_attach,
-      bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/",
-      shell = "powershell.exe",
+      init_options = {
+          enableProfileLoading = false,
+        },
+      bundle_path = string.format("%s/%s", vim.fn.stdpath("data"), "mason/packages/powershell-editor-services"),
+      shell = "pwsh"
     })
 
     vim.lsp.config("efm", {

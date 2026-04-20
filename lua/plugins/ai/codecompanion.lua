@@ -54,6 +54,8 @@
 Here is the current buffer:
 #{buffer}
 
+*** do not use 'dir' os command instead allways use 'dir /b' 
+
 You may use any of below tools:
   @{files}
   @{read_file}
@@ -84,6 +86,8 @@ Here is the current buffer:
 
 And here are the diagnostics and symbols from the LSP:
 #{diagnostics}
+
+* do not use 'dir' command instead allways use 'dir /b' 
 
 Fix the issues using:
   @{files}
