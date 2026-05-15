@@ -108,6 +108,11 @@ return {
       on_attach = on_attach,
     })
 
+    vim.lsp.config("ty", {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
     vim.lsp.config("lua_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
@@ -167,6 +172,7 @@ return {
       "ts_ls",
       "cssls",
       "emmet_ls",
+      "ty",
       "basedpyright",
       "lua_ls",
       "powershell_es",

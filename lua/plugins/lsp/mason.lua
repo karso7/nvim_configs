@@ -32,6 +32,7 @@ return {
 
     mason_tool_installer.setup({
       ensure_installed = {
+        "tree-sitter-cli",
         "debugpy",  -- python debugger (dap adapter)
       },
     })
