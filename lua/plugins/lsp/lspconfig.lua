@@ -11,7 +11,7 @@ return {
 
     vim.diagnostic.config({
       float = {
-        source = "always",
+        source = true,
         border = "rounded",
       },
     })
@@ -21,7 +21,9 @@ return {
 
     local on_attach = function(_, bufnr)
       local opts = { buffer = bufnr, noremap = true, silent = true }
-
+      if vim.lsp.inlay_hint then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+      end
       -- set key binds
       -- Go to
       opts.desc = "LSP - Go to declaration"
@@ -113,6 +115,12 @@ return {
       on_attach = on_attach,
     })
 
+    -- remember to install solc (pipx install solc-select)
+    vim.lsp.config("solidity",{
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
     vim.lsp.config("lua_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
@@ -136,8 +144,8 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
       init_options = {
-          enableProfileLoading = false,
-        },
+        enableProfileLoading = false,
+      },
       bundle_path = string.format("%s/%s", vim.fn.stdpath("data"), "mason/packages/powershell-editor-services"),
       shell = "pwsh"
     })
@@ -168,6 +176,7 @@ return {
     })
 
     vim.lsp.enable({
+      "solidity",
       "html",
       "ts_ls",
       "cssls",
