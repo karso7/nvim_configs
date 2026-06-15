@@ -156,7 +156,7 @@ return {
     vim.lsp.config("efm", {
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "python" },
+      filetypes = { "python", "solidity" },
       init_options = {
         documentFormatting = true,
       },
@@ -174,6 +174,14 @@ return {
               formatStdin = true,
             },
           },
+          solidity = {
+            {
+              lintCommand = "npx solhint --formatter unix -",
+              lintFormats = { "%f:%l:%c: %m" },
+              lintStdin = false,
+              lintIgnoreExitCode = true,
+            }
+          }
         },
       },
     })
