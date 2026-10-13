@@ -10,6 +10,18 @@
     local cc = require("codecompanion")
     local keymap = vim.keymap
 
+    -- Keeps tool-call JSON valid and small enough to never be truncated in
+    -- flight. Sent as part of the system context so it survives agent tool
+    -- modes, which drop the default system prompt.
+    local tool_guardrails = [[<toolCallGuardrails>
+When calling tools:
+- Emit strictly valid JSON arguments: quote every string and value; never use bare identifiers.
+- Keep each tool call's arguments small (roughly under 2 KB).
+- For large files, split the work into multiple smaller, targeted tool calls.
+- Prefer anchored search/replace edits over whole-file overwrites.
+- Never put an entire large file into a single JSON string argument.
+</toolCallGuardrails>]]
+
     local get_ai_context = function()
       local cwd = vim.fn.getcwd()
       local parts = {}
@@ -27,6 +39,9 @@
       if ok2 and #lines2 > 0 then
         table.insert(parts, "-- pyproject.toml --\n" .. table.concat(lines2, "\n"))
       end
+
+      -- Placed last so the guardrails sit closest to the current task.
+      table.insert(parts, tool_guardrails)
 
       return table.concat(parts, "\n\n")
     end
