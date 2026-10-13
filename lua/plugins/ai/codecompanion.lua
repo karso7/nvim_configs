@@ -32,9 +32,9 @@
     end
 
     cc.setup({
-        --      opts = {
-        --        log_level = "TRACE", -- or "DEBUG"
-        --      },
+        --opts = {
+        --    log_level = "TRACE", -- or "DEBUG"
+        --},
         prompt_library = {
           ["Chat With Project Context"] = {
             description = "Chat with project ai_context.txt + pyproject.toml",
@@ -107,23 +107,19 @@ Fix the issues using:
           opts = {
             date_format = "%Y-%m-%d",
           },
-          inline = { adapter = {name = "deepseek", model = "deepseek-chat"} },
-          cmd    = { adapter = {name = "deepseek", model = "deepseek-chat"} },
-          chat   = { 
-            adapter = {name = "deepseek", model = "deepseek-chat"},
+          inline = { adapter = {name = "deepseek", model = "deepseek-v4-flash"} },
+          cmd    = { adapter = {name = "deepseek", model = "deepseek-v4-flash"} },
+          chat   = {
+            adapter = {name = "deepseek", model = "deepseek-v4-flash"},
             roles = {
-              ---The header name for the LLM's messages
-              ---@type string|fun(adapter: CodeCompanion.Adapter): string
               llm = function(adapter)
                 return "CodeCompanion (" .. adapter.formatted_name .. ")"
               end,
-
-              ---The header name for your messages
-              ---@type string
               user = "Me (Ctrl+S to submit prompt, # or @ for functions calls, ? for help)",
             }
           },
         },
+
         ui = {
           border = "rounded",
           width = 0.45,
