@@ -119,6 +119,9 @@ return {
     vim.lsp.config("solidity",{
       capabilities = capabilities,
       on_attach = on_attach,
+      flags = {
+        debounce_text_changes = 3000,  -- 3 seconds in milliseconds
+      },
     })
 
     vim.lsp.config("lua_ls", {
@@ -153,7 +156,7 @@ return {
     vim.lsp.config("efm", {
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "python" },
+      filetypes = { "python", "solidity" },
       init_options = {
         documentFormatting = true,
       },
@@ -171,6 +174,14 @@ return {
               formatStdin = true,
             },
           },
+          solidity = {
+            {
+              lintCommand = "npx solhint --formatter unix -",
+              lintFormats = { "%f:%l:%c: %m" },
+              lintStdin = false,
+              lintIgnoreExitCode = true,
+            }
+          }
         },
       },
     })
