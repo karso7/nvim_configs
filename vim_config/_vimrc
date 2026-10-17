@@ -1,0 +1,32 @@
+" Get the defaults that most users want.
+set t_Co=256
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+
+source $VIMRUNTIME/defaults.vim
+colorscheme retrobox
+set bg=dark
+
+set spell spelllang=en_us
+set number
+set relativenumber 
+set backupdir=~/AppData/Local/Temp//
+set directory=~/AppData/Local/Temp//
+set undodir=~/AppData/Local/Temp//
+syntax on
+set signcolumn=yes
+set scrolloff=6
+
+set tabstop=2
+set shiftwidth=8
+set expandtab
+set autoindent
+set smartindent
+
+:let g:netrw_browsex_viewer= "start"
+set cursorline
+:set path+=**
+
+:nmap <Space>ee <Cmd>:Exp<CR><Esc>
+:nmap <Space>rc <Cmd>:e $MYVIMRC<CR><Esc>

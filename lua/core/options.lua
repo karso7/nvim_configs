@@ -9,8 +9,10 @@ opt.number = true -- shows absolute line number on cursor line (when relative nu
 
 -- tabs & indentation
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
+opt.softtabstop = 2
 opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
+opt.smartindent = true
 opt.autoindent = true -- copy indent from current line when starting new one
 
 -- line wrapping
@@ -24,7 +26,7 @@ opt.smartcase = true -- if you include mixed case in your search, assumes you wa
 opt.cursorline = true -- highlight the current cursor line
 
 -- appearance
-opt.termguicolors = true
+opt.termguicolors = true -- Enable 24bit color
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 vim.cmd("colorscheme retrobox")
 
@@ -41,6 +43,9 @@ opt.swapfile = true
 -- language
 opt.spelllang = "en"
 opt.spell = true
+
+-- file find path 
+opt.path:append("**")
 
 -- powershell
 opt.shell = "powershell"
