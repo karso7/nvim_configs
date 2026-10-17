@@ -4,11 +4,16 @@ require("core")
 require("lazy_config")
 
 
+-- ***************** CORE *******************************
+-- ~/AppData/Local/nvim/lua/core/options.lua
+-- ~/AppData/Local/nvim/lua/core/keymaps.lua
+
 -- ***************** PLUGINS *******************************
 -- ~/AppData/Local/nvim/lua/plugins/gitsigns.lua
 -- ~/AppData/Local/nvim/lua/plugins/telescope.lua
 -- ~/AppData/Local/nvim/lua/plugins/nvim-cmp.lua
 -- ~/AppData/Local/nvim/lua/plugins/lualine.lua
+-- ~/AppData/Local/nvim/lua/plugins/nvim-web-devicons.lua
 
 -- ***************** LSP ******************************
 -- ~/AppData/Local/nvim/lua/plugins/lsp/mason.lua
