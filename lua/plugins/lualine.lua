@@ -16,7 +16,7 @@ return {
           statusline = {},
           winbar = {},
         },
-        ignore_focus = {},
+        ignore_focus = { 'codecompanion', 'codecompanion_input' },
         always_show_tabline = true,
         always_divide_middle = true,
         globalstatus = false,
@@ -38,9 +38,9 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = {'filename'},
-        lualine_x = {'location'},
+        lualine_x = {},
         lualine_y = {},
-        lualine_z = {}
+        lualine_z = {'location'}
       },
       tabline = {},
       winbar = {},
