@@ -47,6 +47,23 @@ When calling tools:
     end
 
     cc.setup({
+        -- Disable DeepSeek thinking/reasoning at the API level. This sends
+        -- `thinking = { type = "disabled" }` in the request body and makes
+        -- the adapter drop `reasoning_effort` (see deepseek.lua).
+        adapters = {
+          http = {
+            deepseek = function()
+              return require("codecompanion.adapters").extend("deepseek", {
+                schema = {
+                  ["thinking.type"] = {
+                    default = "disabled",
+                  },
+                },
+              })
+            end,
+          },
+        },
+
         --opts = {
         --    log_level = "TRACE", -- or "DEBUG"
         --},
