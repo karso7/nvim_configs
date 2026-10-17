@@ -3,7 +3,7 @@ return {
   version = '*',
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
+    "nvim-mini/mini.icons",
   },
   config = function()
     local telescope = require("telescope")

@@ -13,7 +13,7 @@ require("lazy_config")
 -- ~/AppData/Local/nvim/lua/plugins/telescope.lua
 -- ~/AppData/Local/nvim/lua/plugins/nvim-cmp.lua
 -- ~/AppData/Local/nvim/lua/plugins/lualine.lua
--- ~/AppData/Local/nvim/lua/plugins/nvim-web-devicons.lua
+-- ~/AppData/Local/nvim/lua/plugins/mini-icons.lua
 
 -- ***************** LSP ******************************
 -- ~/AppData/Local/nvim/lua/plugins/lsp/mason.lua
