@@ -83,8 +83,81 @@ if (-not(Test-Path -Path Alias:Touch)) {
 
 #########################################
 ### Create an alias for NvimUpdate
+function Test-NvimPrerequisites()
+{
+    $allOk = $true
+    Write-Output "Checking essential tools for Neovim ..."
+
+    # git - required by Lazy.nvim for plugin management
+    $git = Get-Command git -ErrorAction SilentlyContinue
+    if ($git) {
+        Write-Output ("  [OK]   git     : {0}" -f $git.Source)
+    }
+    else {
+        Write-Output "  [MISS] git     : required by Lazy.nvim - install 'choco install git'"
+        $allOk = $false
+    }
+
+    # ripgrep (rg) - required by Telescope live grep / grug-far
+    $rg = Get-Command rg -ErrorAction SilentlyContinue
+    if ($rg) {
+        Write-Output ("  [OK]   ripgrep : {0}" -f $rg.Source)
+    }
+    else {
+        Write-Output "  [MISS] ripgrep : required by Telescope live grep - 'choco install ripgrep'"
+        $allOk = $false
+    }
+
+    # unzip - required by Mason / Expand-Archive workflows
+    $unzip = Get-Command unzip -ErrorAction SilentlyContinue
+    if ($unzip) {
+        Write-Output ("  [OK]   unzip   : {0}" -f $unzip.Source)
+    }
+    else {
+        Write-Output "  [MISS] unzip   : required by Mason - 'choco install unzip'"
+        $allOk = $false
+    }
+
+    # fd - optional but used by Telescope and snacks pickers
+    $fd = Get-Command fd -ErrorAction SilentlyContinue
+    if ($fd) {
+        Write-Output ("  [OK]   fd      : {0}" -f $fd.Source)
+    }
+    else {
+        Write-Output "  [MISS] fd      : used by Telescope/snacks file finder - 'choco install fd'"
+        $allOk = $false
+    }
+
+    # Nerd Font check - a font family name containing "Nerd Font" must be installed
+    $fontPaths = @(
+      "$env:WINDIR\Fonts"
+      "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
+    )
+    $nerdFont = Get-ChildItem -Path $fontPaths -File -ErrorAction SilentlyContinue |
+      Where-Object { $_.Name -match 'Nerd' } |
+      Select-Object -First 1
+
+    if ($nerdFont) {
+        Write-Output ("  [OK]   NerdFont: {0}" -f $nerdFont.Name)
+    }
+    else {
+        Write-Output "  [MISS] NerdFont: required for icons in statusline/telescope - https://www.nerdfonts.com/font-downloads"
+        $allOk = $false
+    }
+
+    if ($allOk) {
+        Write-Output "All prerequisites satisfied."
+    }
+    else {
+        Write-Output "Some prerequisites are missing - Neovim will still work but some plugins may misbehave."
+    }
+    return $allOk
+}
+
 function UpdateNvim()
 {
+    Test-NvimPrerequisites | Out-Null
+
     $OutDir = "C:\Program Files\Neovim"
     $OutFile = "$OutDir\nvim-win64.zip"
     $OutFolder = "$OutDir\nvim-win64"
@@ -105,6 +178,10 @@ function UpdateNvim()
 # Check if the alias exists
 if (-not(Test-Path -Path Alias:NvimUpdate)) {
     New-Alias -Name NvimUpdate UpdateNvim -Force
+}
+# Check if the alias exists
+if (-not(Test-Path -Path Alias:NvimTestPrerequisites)) {
+    New-Alias -Name NvimTestPrerequisites Test-NvimPrerequisites
 }
 
 
