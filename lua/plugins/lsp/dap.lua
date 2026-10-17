@@ -4,11 +4,11 @@ return {
   dependencies = {
     "mfussenegger/nvim-dap-python",
     "nvim-neotest/nvim-nio",
-    "rcarriga/nvim-dap-ui",
+    "igorlfs/nvim-dap-view",
   },
   config = function()
     local dap = require("dap")
-    local dapui = require("dapui")
+    local dapview = require("dap-view")
     local dap_python = require("dap-python")
 
     local python_path_from_mason = table.concat({
@@ -23,7 +23,33 @@ return {
 
     local hover_open = nil
 
-    dapui.setup()
+    -- Custom winbar buttons that display the debug keymaps (F5, F10, ...)
+    local function key_button(keys, action)
+      return {
+        render = function() return keys end,
+        action = function() action() end,
+      }
+    end
+
+    dapview.setup({
+      winbar = {
+        sections = { "scopes", "watches", "threads", "exceptions", "breakpoints", "repl", "sessions", "console" },
+        default_section = "scopes",
+        show = true,
+        controls = {
+          enabled = true,
+          position = "right",
+          buttons = { "F5", "F10", "F11", "F12", "dbt" },
+          custom_buttons = {
+            F5  = key_button("F5",  function() dap.continue() end),
+            F10 = key_button("F10", function() dap.step_over() end),
+            F11 = key_button("F11", function() dap.step_into() end),
+            F12 = key_button("F12", function() dap.step_out() end),
+            dbt = key_button("dbt",  function() dap.terminate() end),
+          },
+        },
+      },
+    })
     dap_python.setup(python_path_from_mason)
 
     -- Configure pytest as test runner (instead of default unittest)
@@ -84,17 +110,17 @@ return {
         justMyCode = false,
       })
 
-      dap.listeners.before.attach.dapui_config = function()
-        dapui.open()
+      dap.listeners.before.attach.dapview_config = function()
+        dapview.open()
       end
-      dap.listeners.before.launch.dapui_config = function()
-        dapui.open()
+      dap.listeners.before.launch.dapview_config = function()
+        dapview.open()
       end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        dapui.close()
+      dap.listeners.before.event_terminated.dapview_config = function()
+        dapview.close()
       end
-      dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
+      dap.listeners.before.event_exited.dapview_config = function()
+        dapview.close()
       end
 
       vim.api.nvim_set_hl(0, "dapgreen",  { fg = "#9ece6a" })
@@ -116,7 +142,7 @@ return {
           hover_open.close()
           hover_open = nil
         else
-          hover_open = require('dap.ui.widgets').hover()
+          hover_open = dapview.hover()
         end
       end, { desc = "Debug - toggle hover widget" })
     end,
