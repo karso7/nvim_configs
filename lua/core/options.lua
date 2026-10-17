@@ -1,6 +1,6 @@
 local opt = vim.opt -- for conciseness
 
-opt.bomb = flase	-- do not use Byte Order Mark(BOM) in files
+opt.bomb = false	-- do not use Byte Order Mark(BOM) in files
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
