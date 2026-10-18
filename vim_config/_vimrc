@@ -8,6 +8,8 @@ source $VIMRUNTIME/defaults.vim
 colorscheme retrobox
 set bg=dark
 
+set belloff=all
+
 set spell spelllang=en_us
 set number
 set relativenumber 
