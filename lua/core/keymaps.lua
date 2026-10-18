@@ -32,3 +32,9 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 -- diff
 keymap.set("n", "<leader>do", "<cmd>.diffget<CR>", { desc = "copy line from other buffor" })
 keymap.set("n", "<leader>dp", "<cmd>.diffput<CR>", { desc = "copy line to other buffor" })
+
+-- go to nvim config file
+keymap.set("n", "<leader>rc", function()
+  vim.cmd.edit(vim.env.MYVIMRC)
+end, { desc = "Open neovim config file" })
+

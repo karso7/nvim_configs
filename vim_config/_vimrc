@@ -30,3 +30,10 @@ set cursorline
 
 :nmap <Space>ee <Cmd>:Exp<CR><Esc>
 :nmap <Space>rc <Cmd>:e $MYVIMRC<CR><Esc>
+
+" expand :f to :find
+cnoreabbrev <expr> f (getcmdtype() ==# ':' && getcmdline() ==# 'f') ? 'find' : 'f'
+
+" expand :g to :vimgrep
+cnoreabbrev <expr> g (getcmdtype() ==# ':' && getcmdline() ==# 'g') ? 'vimgrep' : 'g'
+
